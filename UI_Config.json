@@ -1,0 +1,15 @@
+{
+    "output_file": "settings.json",
+    "alienProbability": {
+        "type": "numberbox",
+        "value": 10,
+        "label": "Alien Probability",
+        "tooltip": "The probability that someone might be an alien."
+    },
+    "userCooldown": {
+        "type": "numberbox",
+        "value": 300,
+        "label": "User Cooldown",
+        "tooltip": "The amount of seconds you want to cooldown a user for."
+    }
+}

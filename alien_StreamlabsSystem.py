@@ -1,3 +1,7 @@
+import json
+import os
+import codecs
+
 ScriptName = "Alien?"
 Website = "https://twitch.tv/higorfrost"
 Description = "Julga a probabilidade de o viewer ser um alien."
@@ -5,14 +9,25 @@ Creator = "higorrebell0"
 Version = "1.0.0"
 Command = "!alien"
 
+settings = {}
+
 
 def Init():
+    global settings
+    work_dir = os.path.dirname(__file__)
+
+    with codecs.open(os.path.join(work_dir, "settings.json"), encoding='utf-8-sig') as json_file:
+        settings = json.load(json_file, encoding='utf-8-sig')
+
     return
 
 
 def Execute(data):
     if data.GetParam(0) != Command:
         return
+    
+    if data.IsOnUserCooldown(ScriptName, Command, data.User):
+        send_message("Teste sendo preparado. Cooldown de 5 min.")
     
     username = data.UserName
 
@@ -21,6 +36,7 @@ def Execute(data):
     else:
         send_message("Olhando daqui, " + username + ", voce nao me parece um alien...")
 
+    Parent.AddUserCooldown(ScriptName, Command, data.User, settings["userCooldown"])
     log("Exiting Execute.")
 
     return
@@ -34,12 +50,10 @@ def Tick():
 
 def is_alien():
     log("Entered is_alien.")
-
-    alien_probability = 10
     random_chance = Parent.GetRandom(0, 100)
 
     log("Exiting is_alien")
-    return random_chance <= alien_probability
+    return random_chance <= settings["alienProbability"]
 
 
 def send_message(message):
