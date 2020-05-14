@@ -11,7 +11,7 @@ def Init():
 
 
 def Execute(data):
-    if data.GetParam(0) != "!alien":
+    if data.GetParam(0) != Command:
         return
     
     username = data.UserName
@@ -21,6 +21,8 @@ def Execute(data):
     else:
         send_message("Olhando daqui, " + username + ", voce nao me parece um alien...")
 
+    log("Exiting Execute.")
+
     return
 
 
@@ -28,12 +30,25 @@ def Tick():
     return
 
 
+#custom methods
+
 def is_alien():
+    log("Entered is_alien.")
+
     alien_probability = 10
     random_chance = Parent.GetRandom(0, 100)
+
+    log("Exiting is_alien")
     return random_chance <= alien_probability
 
 
 def send_message(message):
+    log("Entered send_message")
     Parent.SendStreamMessage(message)
+    log("Exiting send_message")
+    return
+
+
+def log(message):
+    Parent.Log(Command, message)
     return
