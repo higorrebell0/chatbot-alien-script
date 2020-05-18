@@ -11,17 +11,24 @@ Command = "!alien"
 
 settings = {}
 
-
+# runs when the script is (re)loaded on chatbot
 def Init():
     global settings
     work_dir = os.path.dirname(__file__)
 
-    with codecs.open(os.path.join(work_dir, "settings.json"), encoding='utf-8-sig') as json_file:
+    try:
+        with codecs.open(os.path.join(work_dir, "settings.json"), encoding='utf-8-sig') as json_file:
         settings = json.load(json_file, encoding='utf-8-sig')
+    except Exception, e:
+        log(str(e))
+        settings = {
+            "alienProbability": 10,
+            "userCooldown": 30
+        }
 
     return
 
-
+# runs when a command is typed into the twitch video chat
 def Execute(data):
     if data.GetParam(0) != Command:
         return
@@ -41,7 +48,7 @@ def Execute(data):
 
     return
 
-
+# runs continuoulsy
 def Tick():
     return
 
