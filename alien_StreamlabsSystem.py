@@ -18,7 +18,7 @@ def Init():
 
     try:
         with codecs.open(os.path.join(work_dir, "settings.json"), encoding='utf-8-sig') as json_file:
-        settings = json.load(json_file, encoding='utf-8-sig')
+            settings = json.load(json_file, encoding='utf-8-sig')
     except Exception, e:
         log(str(e))
         settings = {
